@@ -1,3 +1,5 @@
+CREATE DATABASE ANNUAL_LEAVE_APP;
+
 CREATE TABLE ANNUAL_LEAVE_APP.PERSONNEL (
 	GUID BINARY(16) NOT NULL,
 	PERSONNEL_NAME VARCHAR(255) NOT NULL,
@@ -27,7 +29,7 @@ ALTER TABLE ANNUAL_LEAVE_APP.LEAVES ADD CONSTRAINT PERSONNEL_fk0 FOREIGN KEY (RF
 ALTER TABLE ANNUAL_LEAVE_APP.LEAVES ADD CONSTRAINT LEAVE_TYPES_fk0 FOREIGN KEY (RF_LEAVE_TYPE_GUID) REFERENCES ANNUAL_LEAVE_APP.LEAVE_TYPES(GUID);
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_all_personnels`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_get_all_personnels`()
 begin
 	select HEX(p.guid) id, 
 		   p.PERSONNEL_NAME,
@@ -39,7 +41,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_leaves`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_get_leaves`(
  IN P_RF_PERSONNEL_GUID VARCHAR(50))
 begin
 	select HEX(a.guid) id, 
@@ -52,7 +54,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_leave_types`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_get_leave_types`()
 begin
 	select HEX(lt.guid) id, 
     lt.LEAVE_TYPE
@@ -61,7 +63,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_personnel_by_id`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_get_personnel_by_id`(
  IN P_PERSONNEL_GUID VARCHAR(50))
 begin
 	select HEX(p.guid) id, 
@@ -75,7 +77,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_leave_type_by_id`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_delete_leave_type_by_id`(
  IN P_LEAVE_TYPE_ID VARCHAR(50))
 begin
 	delete from annual_leave_app.leave_types where HEX(GUID) = P_LEAVE_TYPE_ID;
@@ -83,7 +85,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_personnel_by_id`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_delete_personnel_by_id`(
  IN P_PERSONNEL_GUID VARCHAR(50))
 begin
 	delete from annual_leave_app.personnel where HEX(GUID)= P_PERSONNEL_GUID;
@@ -91,7 +93,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_personnel_by_name`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_get_personnel_by_name`(
  IN P_PERSONEL_NAME VARCHAR(255))
 begin
 	select HEX(p.guid) id, 
@@ -105,7 +107,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_save_leave_types`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_save_leave_types`(
  IN P_LEAVE_TYPE VARCHAR(255))
 begin
 	insert into ANNUAL_LEAVE_APP.LEAVE_TYPES(GUID, LEAVE_TYPE) value (unhex(replace(UUID(),'-','')), P_LEAVE_TYPE);
@@ -113,7 +115,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_save_leaves`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_save_leaves`(
  IN P_RF_PERSONNEL_GUID BINARY(16), P_RF_LEAVE_TYPE_GUID BINARY(16), P_LEAVE_START_DATE DATE, P_LEAVE_END_DATE DATE)
 begin
 	insert into ANNUAL_LEAVE_APP.LEAVES(GUID, RF_PERSONNEL_GUID, RF_LEAVE_TYPE_GUID, LEAVE_START_DATE,
@@ -123,7 +125,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_save_leaves_types`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_save_leaves_types`(
  IN P_LEAVE_TYPE VARCHAR(255))
 begin
 	insert into ANNUAL_LEAVE_APP.LEAVE_TYPES(GUID, LEAVE_TYPE) value (unhex(replace(UUID(),'-','')), P_LEAVE_TYPE);
@@ -131,7 +133,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_save_personnel`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_save_personnel`(
  IN P_PERSONNEL_NAME VARCHAR(255), IN P_PERSONNEL_DEPARTMENT varchar(255), IN P_PERSONNEL_STARTING_DATE date, 
  P_PERSONNEL_WORK_END_DATE date)
 begin
@@ -142,7 +144,7 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_personnel_by_id`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE ANNUAL_LEAVE_APP.`sp_update_personnel_by_id`(
  IN P_PERSONNEL_GUID VARCHAR(50), IN P_PERSONNEL_NAME VARCHAR(255), IN P_PERSONNEL_DEPARTMENT varchar(255), IN P_PERSONNEL_STARTING_DATE date, 
  P_PERSONNEL_WORK_END_DATE date)
 begin
