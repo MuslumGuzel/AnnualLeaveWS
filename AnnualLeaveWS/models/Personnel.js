@@ -11,8 +11,6 @@ getPersonnelById:function(id,callback){
 },
 addPersonnel:function(Personnel,callback){
 
-   console.log("inside addPersonnel");
-
    return db.query("CALL `ANNUAL_LEAVE_APP`.`sp_save_personnel`(?, ?, ?, ?);",[Personnel.PERSONNEL_NAME,Personnel.PERSONNEL_DEPARTMENT,Personnel.START_DATE,Personnel.END_DATE],callback);
 },
 deletePersonnel:function(id,callback){
